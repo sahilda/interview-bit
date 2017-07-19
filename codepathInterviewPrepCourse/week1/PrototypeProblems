@@ -1,0 +1,67 @@
+*Prototype Problems*
+
+Palindrome
+
+public boolean isPalindrome(String a) {
+	int size = a.length();
+	char[] word = a.toCharArray();
+	for (int i = 0; i < size; i++) {
+		if (word[i] != word[size - 1 - i]) {
+			return false;
+		}
+	}
+	return true;	
+}
+
+Anagram
+
+public boolean isAnagram(String a, String b) {
+	if (a.length() != b.length()) {
+		return false;
+	}
+
+	Map<Character, Integer> mapA = new HashMap<Character, Integer>();
+	Map<Character, Integer> mapB = new HashMap<Character, Integer>();
+
+	for (int i = 0; i < a.length(); i++) {
+		char char1 = a.charAt(i);
+		char char2 = b.charAt(i);
+
+		if (mapA.containsKey(char1)) {
+			mapA.put(char1, mapA.get(char1) + 1);
+		} else {
+			mapA.put(char1, 1);
+		}
+		if (mapB.containsKey(char2)) {
+			mapB.put(char2, mapB.get(char2) + 1);
+		} else {
+			mapB.put(char2, 1);
+		}
+	}		
+
+	for (Character c : mapA.keySet()) {
+		if (mapA.get(c) != mapB.get(c)) {
+			return false;
+		}
+	}
+
+	return true;	
+}
+
+Words
+
+public int howManyWords(String a) {
+	int words = 0;
+	int currentWordLength = 0;
+	for (char c : a.toCharArray()) {
+		if (c != ' ') {
+			currentWordLength += 1;
+		} else {
+			if (currentWordLength != 0) {
+				words += 1;
+				currentWordLength = 0;
+			}
+		}
+	}
+	return words;
+}
