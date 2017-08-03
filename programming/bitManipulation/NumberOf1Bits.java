@@ -15,5 +15,17 @@ public class NumberOf1Bits {
 	    }
 	    return count;
 	}
+
+	public int numSetBitsBetter(long a) {
+		long num = 1;
+		int count = 0;
+		while (num <= a) {
+			if ((a & num) >= num) {
+				count++;
+			}
+			num = num * 2;
+		}
+		return count;
+	}
 	
 }
