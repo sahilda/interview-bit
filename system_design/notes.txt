@@ -1,0 +1,52 @@
+## Designing a cache
+
+* How much data will be stored?
+* How often will the data be asked for (qps)?
+* What kind of data needs to be saved?
+* Will the data be increasing?
+* What is the max acceptabled query time?
+
+* What should be the eviction strategy?
+* What should be the access pattern for a given cache?
+- write to both the db and cache (slow write times / fast read)
+- write to only the db (fast write time / slow read)
+- write to only the cache (fast write time / fast read / potential loss of data)
+
+30TB cache capacity
+* What's the qps? 240M active daily users -> 10M active users / hour -> 160k active users / min -> 2.6k active users / sec with likely peaks
+- 10M qps
+* What is the number of machines required to cache? if each machine has 1TB of storage, we would need at least 30 machines, but more likely around 40 machines to have less than 80% capacity. This also
+gives each machine a 250k qps
+- More realistically, a cache has to have low latency, and as such all of the data has to reside on the main memory. Assuming 72gb of ram, that would be 400+ machines.
+
+What's the design goals?
+- latency
+- consistency
+- availability 
+Latency is a high proority for a caching system, obvs
+Consistency vs availability? Let's go with availability to delay db load. Data can eventually be okay.
+
+Have shards and spread out the data using hashing keys mod num of servers, or using consistent hashing
+Master / Slave combo for redundancy
+
+## Sharding a database
+
+* Should be able to have backups
+* Data should be replicated acorss shards
+* Each shard should have the same amount of data
+* Shards should auto-rebalance
+
+* How much data should we store?
+* What's the rate of new data coming in?
+* What can we assume about our machines?
+* How many machines do we have?
+
+201TB capacity 
+so after a 100 days, every 10 days there after 
+* want to keep storage utilization lower than 100%, maybe at 80%
+
+QPS = queries per second
+10M qps @ 10kb = 100,000,000kb / sec = 100gb/sec
+@ 100mb/sec speed, we would need a 1000 machines
+
+Use consistent hashing
