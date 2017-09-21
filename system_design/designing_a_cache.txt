@@ -28,25 +28,3 @@ Consistency vs availability? Let's go with availability to delay db load. Data c
 
 Have shards and spread out the data using hashing keys mod num of servers, or using consistent hashing
 Master / Slave combo for redundancy
-
-## Sharding a database
-
-* Should be able to have backups
-* Data should be replicated acorss shards
-* Each shard should have the same amount of data
-* Shards should auto-rebalance
-
-* How much data should we store?
-* What's the rate of new data coming in?
-* What can we assume about our machines?
-* How many machines do we have?
-
-201TB capacity 
-so after a 100 days, every 10 days there after 
-* want to keep storage utilization lower than 100%, maybe at 80%
-
-QPS = queries per second
-10M qps @ 10kb = 100,000,000kb / sec = 100gb/sec
-@ 100mb/sec speed, we would need a 1000 machines
-
-Use consistent hashing
