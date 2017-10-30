@@ -37,7 +37,7 @@ Child locations should be immediately after their parent, with an extra dash pre
 Locations of the same level of depth should be alphabetically sorted.
 Assume that the actual list of locations will be longer (up to 100 locations), and have max up to 5 levels of depth.
 
- */
+*/
 
 public class Main {
     public static void main(String args[]) throws Exception {
