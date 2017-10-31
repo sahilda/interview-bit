@@ -1,0 +1,20 @@
+## Designing a messenging service like WhatsApp
+
+* What are the features?
+- one : one text
+It's probably best to create some sort of messenging queue where a client can send messages, and the server will hold the message until the receivng party comes online.
+- status: send / delivered / read
+There's communication between the client and servers, where after sending a message, the server/client will send an ack. When Mary sends a message and its received by the server, the server will send an ack which'll serve as the SEND. The delievered is another queue created by the server when a message is sent to a client letting Mary know it was DELIVERED. For READ, once Bob opens up the chat message, it can send yet another message to Mary.
+- push notifications
+This will use an entirely different system than what's used for sending one : one texts. Once Mary sends out a message and is received by the server, then 
+
+		[server 1]
+[Bob] <-[server 2] <-[mary]
+		[server 3]
+
+Deep dive topics:
+* group messenging and how to broadcast them out.
+* scaling the system more, for millions of users. Topics will include dbs and sharding
+* dbs can have also include message logs and backups
+* monetization
+* load balancing

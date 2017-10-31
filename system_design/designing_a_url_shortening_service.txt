@@ -1,0 +1,36 @@
+## Designing a URL shortening service
+
+# Use cases:
+1) Shortening: takes a url and shortens them
+2) Redirection: takes the url and redirects a user
+3) custom url 
+4) high availability of the system
+
+# Math:
+Let's get some numbers looking at Twitter:
+* 15 bn new tweets a month
+* 10% include a link => 1.5bn links
+* 80% of these are to the same site, so 300M per month
+* We'll be shortening 100M urls a month
+* 1 bn requests a month
+* 10% url shortening and 90% redirection
+* 400+ qps
+* 6 bn urls saved
+* 500 bytes per url
+* 6 bytes per hash (62 ^ 6)
+* 3TB for all urls, 36gbs for all hashes (5 years)
+* new data written per second: 40 * 506 bytes: 20k
+* data read per second: 360 * 500 bytes: 200k
+
+# Abstract Design
+1) Application service layer (serves the request)
+* shortening service
+* redirection service
+2) Data storage layer (keeps track of the shortened urls => urls)
+* acts like a big hash table: stores new mappings, and retrieves a url based on a key
+
+hashed_url = convert_to_base62(md5(original_url + random_salt))[:6]
+
+# Bottlenecks
+* the traffic probably won't be a problem
+* we do need to be cognizant of the data 
