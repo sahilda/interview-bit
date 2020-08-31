@@ -1,0 +1,37 @@
+Jason Cust
+Eng manager run core, data-eng, and data-process
+web-application dev
+joined b/c he a colleague who's leading the data analytics team, started as a solutions eng / lead the team
+
+core is platform eng team (backend), components is the FE
+
+central API services that don't belong to a feature
+they have modules that powering 
+administration portal
+data persistence
+
+they have a full-stack team
+
+node with express
+mongo / mongosse
+
+
+////
+
+API to create a blog
+
+FETCH a list of blogs
+
+FETCH a blog
+  GET /article/id
+CREATE a blog
+  POST /user/id/article
+UPDATE a blog
+  PUT /article/id
+DELETE a blog
+
+article
+ID
+TITLE
+MESSAGE
+USER_ID
