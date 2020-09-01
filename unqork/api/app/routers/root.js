@@ -1,6 +1,7 @@
 const { Router } = require('express');
 
 const mongoose = require('mongoose');
+const objectIdChecker = require('../middleware/objectIdChecker.js');
 const Foos = require('../models/foo');
 
 const router = Router();
@@ -20,16 +21,6 @@ router.get('/', (req, res) => {
 router.get('/err', (req, res, next) => {
     next(new Error('DOH!'));
 });
-
-const objectIdChecker = (req, res, next) => {
-    const objectId = req.params.id;
-    const validObjectId = mongoose.Types.ObjectId.isValid(objectId);
-    if (objectId && !validObjectId) {
-        res.status(404).json({ message: 'Invalid id' });
-    } else {
-        next();
-    }
-};
 
 router.get('/foos', async (req, res) => {
     const query = req.query.filter || {};

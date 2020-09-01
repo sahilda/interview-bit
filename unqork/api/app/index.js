@@ -14,6 +14,9 @@ if (process.env.NODE_ENV !== 'test') {
     app.use(morgan('combined'));
 }
 
+// Accept JSON body
+app.use(express.json());
+
 // Mount all subrouters
 app.use(routers);
 

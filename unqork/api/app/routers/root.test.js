@@ -14,6 +14,7 @@ describe('Verify Root Endpoint', () => {
         request = supertest(app);
     });
 
+    // Remove all existing documents to clean database
     beforeEach(async () => {
         await Foos.deleteMany();
     });

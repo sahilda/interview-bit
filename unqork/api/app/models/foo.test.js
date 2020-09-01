@@ -20,17 +20,25 @@ describe('Verify Foo Model', () => {
         await mongoose.connection.close();
     });
 
+    // Remove all existing documents to clean database
     beforeEach(async () => {
         await FooModel.deleteMany();
     });
 
-    it('should require a name attribute', async () => {
+    it('should insert a valid new document', async () => {
+        const validFoo = new FooModel({ name: 'bar', data: {} });
+        const savedFoo = await validFoo.save();
+
+        expect(savedFoo.id).toBeDefined();
+    });
+
+    it('should require a `name` attribute', async () => {
         const foo = new FooModel({ data: {} });
 
         await expect(foo.save()).rejects.toThrow('Path `name` is required');
     });
 
-    it('should require the name attribute to be unique', async () => {
+    it('should require the `name` attribute to be unique', async () => {
         const foo1 = new FooModel({ name: 'foo', data: {} });
         const savedFoo1 = await foo1.save();
         expect(savedFoo1.id).toBeDefined();
@@ -43,7 +51,7 @@ describe('Verify Foo Model', () => {
         expect(savedFoo2.id).toBeDefined();
     });
 
-    it('should only allow the foos attribute to contain unique foo ids', async () => {
+    it('should only allow the `foos` attribute to contain unique foo ids', async () => {
         const foo = new FooModel({ name: 'bar', data: {} });
         let savedFoo = await foo.save();
         expect(savedFoo.id).toBeDefined();
@@ -55,27 +63,27 @@ describe('Verify Foo Model', () => {
         await expect(foo.save()).rejects.toThrow('duplicate object ids');
     });
 
-    it('should require a data attribute', async () => {
+    it('should require a `data` attribute', async () => {
         const foo = new FooModel({ name: 'bar' });
 
         await expect(foo.save()).rejects.toThrow('Foo validation failed: data: Path `data` is required.');
     });
 
-    it('should allow the data attribute to be freeform', async () => {
+    it('should allow the `data` attribute to be freeform', async () => {
         const foo = new FooModel({ name: 'bar', data: { any: 'object' } });
         const savedFoo = await foo.save();
         expect(savedFoo.id).toBeDefined();
         expect(savedFoo.data).toEqual({ any: 'object' });
     });
 
-    it('should set the created attribute at creation', async () => {
+    it('should set the `created` attribute at creation', async () => {
         const foo = new FooModel({ name: 'bar', data: {} });
         const savedFoo = await foo.save();
         expect(savedFoo.id).toBeDefined();
         expect(savedFoo.created).toBeDefined();
     });
 
-    it('should not update the created attribute on updates', async () => {
+    it('should not update the `created` attribute on updates', async () => {
         const foo = new FooModel({ name: 'bar', data: {} });
         let savedFoo = await foo.save();
         expect(savedFoo.id).toBeDefined();
@@ -87,14 +95,14 @@ describe('Verify Foo Model', () => {
         expect(savedFoo.created).toEqual(createdAt);
     });
 
-    it('should set the modified attribute at creation', async () => {
+    it('should set the `modified` attribute at creation', async () => {
         const foo = new FooModel({ name: 'bar', data: {} });
         const savedFoo = await foo.save();
         expect(savedFoo.id).toBeDefined();
         expect(savedFoo.modified).toBeDefined();
     });
 
-    it('should update the modified attribute on updates', async () => {
+    it('should update the `modified` attribute on updates', async () => {
         const foo = new FooModel({ name: 'bar', data: {} });
         let savedFoo = await foo.save();
         expect(savedFoo.id).toBeDefined();
@@ -105,12 +113,5 @@ describe('Verify Foo Model', () => {
         savedFoo = await savedFoo.save();
         expect(savedFoo.modified).not.toEqual(modifiedAt);
         expect(savedFoo.modified > modifiedAt).toBeTruthy();
-    });
-
-    it('should insert a valid new document', async () => {
-        const validFoo = new FooModel({ name: 'bar', data: {} });
-        const savedFoo = await validFoo.save();
-
-        expect(savedFoo.id).toBeDefined();
     });
 });

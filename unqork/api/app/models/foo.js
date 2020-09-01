@@ -6,6 +6,7 @@ const fooSchema = new mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Foo',
         validate: {
+            // Treat array type as a set
             validator: (array) => array.length === new Set(array.map((x) => x.toString())).size,
             message: 'duplicate object ids'
         }
@@ -15,7 +16,6 @@ const fooSchema = new mongoose.Schema({
 
 // Attempted to add a middleware hook but was unsuccessful in getting it working,
 // ended up adding this functionality into the controller directly.
-
 // fooSchema.pre('deleteOne', function (next) {
 //     this.model.updateMany(
 //         { foos: { $in: this._id } },
